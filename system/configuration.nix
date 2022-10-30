@@ -16,7 +16,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "octonix"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
@@ -45,6 +45,19 @@
     xkbVariant = "";
     videoDrivers = [ "nvidia" ];
   };
+
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
+
+  nix = {
+    package = pkgs.nixFlakes;
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
+  };
+
+  swapDevices = [ { device = "/dev/disk/by-uuid/45f70305-d54a-4e99-b09b-5b32d9f5cb58"; } ];
 
   hardware.opengl.enable = true;
 
@@ -75,7 +88,7 @@
   users.users.octorocket = {
     isNormalUser = true;
     description = "OctoRocket";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "libvirtd" ];
     shell = pkgs.fish;
     packages = with pkgs; [
       firefox
@@ -83,7 +96,7 @@
       kitty
       fira-code
       vscode
-      discord
+      (discord.override { nss = nss_latest; })
       betterdiscord-installer
       papirus-icon-theme
       gnome.gnome-tweaks
@@ -92,6 +105,13 @@
       git-crypt
       gnupg
       gh
+      python311
+      prismlauncher
+      freshfetch
+      lolcat
+      fortune
+      protontricks
+      virt-manager
     ];
   };
 
@@ -106,13 +126,14 @@
     xdg.enable = true;
     xdg.configFile."discord/settings.json".text = builtins.toJSON {SKIP_HOST_UPDATE = true;};
     xdg.configFile."../.themes/Catppuccin-Mocha-Lavender".source = "${../configs/Catppuccin-Mocha-Lavender}";
+    xdg.configFile."kitty/kitty.conf".source = "${../configs/kitty.conf}";
+    xdg.configFile."fish/config.fish".source = "${../configs/config.fish}";
   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    steam
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
