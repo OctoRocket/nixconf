@@ -112,6 +112,12 @@
       fortune
       protontricks
       virt-manager
+      obs-studio
+      ffmpeg
+      the-powder-toy
+      rustup
+      gcc
+      gparted
     ];
   };
 
