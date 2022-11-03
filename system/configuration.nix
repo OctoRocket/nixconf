@@ -97,7 +97,6 @@
       fira-code
       vscode
       (discord.override { nss = nss_latest; })
-      betterdiscord-installer
       papirus-icon-theme
       gnome.gnome-tweaks
       breeze-gtk
@@ -118,6 +117,8 @@
       rustup
       gcc
       gparted
+      unzip
+      tmux
     ];
   };
 
@@ -139,7 +140,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    neovim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
