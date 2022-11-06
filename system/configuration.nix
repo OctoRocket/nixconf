@@ -36,11 +36,9 @@
   services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-
-  # Configure keymap in X11
   services.xserver = {
+    displayManager.gdm.enable = true;
+    desktopManager.gnome.enable = true;
     layout = "us";
     xkbVariant = "";
     videoDrivers = [ "nvidia" ];
@@ -119,6 +117,12 @@
       gparted
       unzip
       tmux
+      appimage-run
+      rust-analyzer
+      lunar-client
+      grapejuice
+      gnome.gnome-mines
+      wine
     ];
   };
 
@@ -135,6 +139,8 @@
     xdg.configFile."../.themes/Catppuccin-Mocha-Lavender".source = "${../configs/Catppuccin-Mocha-Lavender}";
     xdg.configFile."kitty/kitty.conf".source = "${../configs/kitty.conf}";
     xdg.configFile."fish/config.fish".source = "${../configs/config.fish}";
+
+    xdg.configFile."nvim/init.vim".source = "${../configs/nvim/init.vim}";
   };
 
   # List packages installed in system profile. To search, run:
